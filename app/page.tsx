@@ -1,4 +1,37 @@
+"use client";
+
+import { useState } from "react";
+
 export default function Home() {
+  const [showEmailBox, setShowEmailBox] = useState(false);
+
+  const [emailForm, setEmailForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const body = `
+Hi Joseph,
+
+${emailForm.message}
+
+From:
+${emailForm.name}
+${emailForm.email}
+    `.trim();
+
+    const mailtoLink = `mailto:joseph.coronado0550@gmail.com?subject=${encodeURIComponent(
+      emailForm.subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoLink;
+  };
+
   const skills = [
     "Python",
     "Node.js",
@@ -122,15 +155,19 @@ export default function Home() {
             <a href="#about" className="transition hover:text-cyan-400">
               About
             </a>
+
             <a href="#expertise" className="transition hover:text-cyan-400">
               Expertise
             </a>
+
             <a href="#experience" className="transition hover:text-cyan-400">
               Experience
             </a>
+
             <a href="#skills" className="transition hover:text-cyan-400">
               Skills
             </a>
+
             <a href="#contact" className="transition hover:text-cyan-400">
               Contact
             </a>
@@ -142,7 +179,8 @@ export default function Home() {
       <section className="mx-auto flex min-h-[88vh] max-w-6xl items-center px-6 py-24">
         <div className="max-w-5xl">
           <p className="mb-5 font-medium text-cyan-400">
-            Technical Enablement • Developer Documentation • Platform Engineering
+            Technical Enablement • Developer Documentation • Platform
+            Engineering
           </p>
 
           <h1 className="text-5xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
@@ -168,7 +206,15 @@ export default function Home() {
             </a>
 
             <a
-              href="mailto:joseph.coronado0550@gmail.com"
+              href="/Joseph_Coronado_Allen_Resume.pdf"
+              download="Joseph_Coronado_Allen_Resume.pdf"
+              className="rounded-lg border border-slate-700 px-6 py-3 font-semibold transition hover:border-cyan-400 hover:text-cyan-400"
+            >
+              ↓ Download Resume
+            </a>
+
+            <a
+              href="#contact"
               className="rounded-lg border border-slate-700 px-6 py-3 font-semibold transition hover:border-cyan-400 hover:text-cyan-400"
             >
               Contact Me
@@ -360,40 +406,194 @@ export default function Home() {
 
       {/* Contact */}
       <section id="contact">
-        <div className="mx-auto max-w-6xl px-6 py-24 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-400">
-            Contact
-          </p>
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-400">
+              Contact
+            </p>
 
-          <h2 className="mt-4 text-3xl font-bold sm:text-5xl">
-            Let&apos;s connect
-          </h2>
+            <h2 className="mt-4 text-3xl font-bold sm:text-5xl">
+              Let&apos;s connect
+            </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-400">
-            I&apos;m interested in opportunities involving developer
-            documentation, technical enablement, developer experience,
-            platform engineering, and API enablement.
-          </p>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-400">
+              I&apos;m interested in opportunities involving developer
+              documentation, technical enablement, developer experience,
+              platform engineering, and API enablement.
+            </p>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <a
-              href="mailto:joseph.coronado0550@gmail.com"
-              className="rounded-lg bg-cyan-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400"
-            >
-              Email Me
-            </a>
+            {!showEmailBox && (
+              <div className="mt-10 flex flex-wrap justify-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => setShowEmailBox(true)}
+                  className="rounded-lg bg-cyan-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400"
+                >
+                  Email Me
+                </button>
 
-            <a
-              href="tel:+17377101372"
-              className="rounded-lg border border-slate-700 px-6 py-3 font-semibold transition hover:border-cyan-400 hover:text-cyan-400"
-            >
-              Call Me
-            </a>
+                <a
+                  href="/Joseph_Coronado_Allen_Resume.pdf"
+                  download="Joseph_Coronado_Allen_Resume.pdf"
+                  className="rounded-lg border border-slate-700 px-6 py-3 font-semibold transition hover:border-cyan-400 hover:text-cyan-400"
+                >
+                  ↓ Download Resume
+                </a>
+
+                <a
+                  href="tel:+17377101372"
+                  className="rounded-lg border border-slate-700 px-6 py-3 font-semibold transition hover:border-cyan-400 hover:text-cyan-400"
+                >
+                  Call Me
+                </a>
+              </div>
+            )}
           </div>
 
-          <div className="mt-8 space-y-2 text-sm text-slate-500">
+          {/* Email Box */}
+          {showEmailBox && (
+            <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-2xl sm:p-8">
+              <div className="mb-7 flex items-center justify-between">
+                <div>
+                  <h3 className="text-2xl font-bold">Send me a message</h3>
+
+                  <p className="mt-2 text-sm text-slate-400">
+                    I&apos;d be happy to hear from you.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowEmailBox(false)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-700 text-xl text-slate-400 transition hover:border-cyan-400 hover:text-cyan-400"
+                  aria-label="Close email form"
+                >
+                  ×
+                </button>
+              </div>
+
+              <form onSubmit={handleEmailSubmit} className="space-y-5">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="mb-2 block text-sm font-medium text-slate-300"
+                    >
+                      Your Name
+                    </label>
+
+                    <input
+                      id="name"
+                      type="text"
+                      required
+                      value={emailForm.name}
+                      onChange={(e) =>
+                        setEmailForm({
+                          ...emailForm,
+                          name: e.target.value,
+                        })
+                      }
+                      placeholder="John Smith"
+                      className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="mb-2 block text-sm font-medium text-slate-300"
+                    >
+                      Your Email
+                    </label>
+
+                    <input
+                      id="email"
+                      type="email"
+                      required
+                      value={emailForm.email}
+                      onChange={(e) =>
+                        setEmailForm({
+                          ...emailForm,
+                          email: e.target.value,
+                        })
+                      }
+                      placeholder="john@company.com"
+                      className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="subject"
+                    className="mb-2 block text-sm font-medium text-slate-300"
+                  >
+                    Subject
+                  </label>
+
+                  <input
+                    id="subject"
+                    type="text"
+                    required
+                    value={emailForm.subject}
+                    onChange={(e) =>
+                      setEmailForm({
+                        ...emailForm,
+                        subject: e.target.value,
+                      })
+                    }
+                    placeholder="Opportunity / Project / Question"
+                    className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-500"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="mb-2 block text-sm font-medium text-slate-300"
+                  >
+                    Message
+                  </label>
+
+                  <textarea
+                    id="message"
+                    required
+                    rows={6}
+                    value={emailForm.message}
+                    onChange={(e) =>
+                      setEmailForm({
+                        ...emailForm,
+                        message: e.target.value,
+                      })
+                    }
+                    placeholder="Tell me a little about the opportunity..."
+                    className="w-full resize-none rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-500"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <button
+                    type="submit"
+                    className="flex-1 rounded-lg bg-cyan-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400"
+                  >
+                    Send Message →
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowEmailBox(false)}
+                    className="rounded-lg border border-slate-700 px-6 py-3 font-semibold text-slate-300 transition hover:border-slate-500 hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          <div className="mt-10 space-y-2 text-center text-sm text-slate-500">
             <p>joseph.coronado0550@gmail.com</p>
-            <p>(737) 710-1372</p>
+            <p>(281) 594-7225</p>
             <p>Austin, TX 78729</p>
           </div>
         </div>
